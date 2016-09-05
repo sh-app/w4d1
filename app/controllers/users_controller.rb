@@ -20,9 +20,13 @@ class UsersController < ApplicationController
   end
 
   def update
+    #Does not produce an error for out of scope user id
     user = User.find(params[:id])
-    user.update(user_params)
-    render json: [user, "Updated!"]
+    if user.update(user_params)
+      render json: [user, "Updated!"]
+    else
+      render json: user.errors.full_messages, status: 422
+    end
   end
 
   def destroy
@@ -36,6 +40,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:username)
   end
 end
