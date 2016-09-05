@@ -55,8 +55,12 @@ Rails.application.routes.draw do
   #   end
 
 
-  resources :users, except: [:new, :edit]
-  resources :contacts, except: [:new, :edit]
+  resources :users, except: [:new, :edit] do
+    resources :contacts, only: :index
+  end
+
+  resources :contacts, except: [:index, :new, :edit]
+  resources :contact_shares, only: [:create, :destroy, :show]
 
   # get '/users' => 'users#index', :as => 'users'
   # post '/users' => 'users#create'

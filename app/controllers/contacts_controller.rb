@@ -1,7 +1,12 @@
 class ContactsController < ApplicationController
 
   def index
-    render json: Contact.all
+    # IS THIS CORRECT???
+    user_contact = Contact.find_by(user_id: params[:user_id])
+    render json: ["#{params[:user_id]}'s contacts",
+                  user_contact,
+                  "Contacts shared with #{params[:user_id]}:",
+                  user_contact.shared_users]
   end
 
   def create

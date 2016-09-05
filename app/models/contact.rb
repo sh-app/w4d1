@@ -12,6 +12,7 @@
 
 class Contact < ActiveRecord::Base
   validates :name, :email, :user_id, presence: true, uniqueness: true
+
   belongs_to(
     :owner,
     class_name: 'User',
