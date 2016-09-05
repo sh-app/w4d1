@@ -9,9 +9,12 @@ class ContactSharesController < ApplicationController
   end
 
   def show
-    #Does not produce an error for out of scope contact id
-    contact_share = ContactShare.find(params[:id])
-    render json: contact_share
+    begin
+      contact_share = ContactShare.find(params[:id])
+      render json: contact_share
+    rescue ActiveRecord::RecordNotFound
+      render json: ['Contact share Not Found!'], status: 404
+    end
   end
 
   def destroy

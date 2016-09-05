@@ -19,9 +19,12 @@ class ContactsController < ApplicationController
   end
 
   def show
-    #Does not produce an error for out of scope contact id
-    contact = Contact.find(params[:id])
-    render json: contact
+    begin
+      contact = Contact.find(params[:id])
+      render json: contact
+    rescue ActiveRecord::RecordNotFound
+      render json: ['Contact Not Found!'], status: 404
+    end
   end
 
   def update

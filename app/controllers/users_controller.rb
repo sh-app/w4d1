@@ -14,14 +14,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    #Does not produce an error for out of scope user id
-    user = User.find(params[:id])
-    render json: user
+    
+    begin
+      user = User.find(params[:id])
+      render json: user
+    rescue ActiveRecord::RecordNotFound
+      render json: ['User Not Found!'], status: 404
+    end
   end
 
   def update
     #Does not produce an error for out of scope user id
     user = User.find(params[:id])
+
     if user.update(user_params)
       render json: [user, "Updated!"]
     else
